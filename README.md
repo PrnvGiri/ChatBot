@@ -1,4 +1,4 @@
-# IntelliPaat AI Chatbot 🤖
+# AI Chatbot 🤖
 
 A clean, responsive, and modern web-based AI assistant powered by **LLaMA 3.1 (via the Groq API)**. Built entirely with vanilla HTML, CSS, and JavaScript, it requires zero build tools or package managers—just open and chat!
 
