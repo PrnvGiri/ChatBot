@@ -31,29 +31,11 @@ let messageHistory = [];
 // ==========================================
 
 // Check if API key is missing and show notice
-function checkApiKey() {
-    if (GROQ_API_KEY === 'YOUR_GROQ_API_KEY_HERE' || GROQ_API_KEY === '') {
-        setTimeout(() => {
-            setupNotice.classList.add('show');
-        }, 1000);
-    }
+if (GROQ_API_KEY === 'YOUR_GROQ_API_KEY_HERE' || GROQ_API_KEY === '') {
+    setTimeout(() => {
+        setupNotice.classList.add('show');
+    }, 1000);
 }
-
-// Dynamically load environment variables from .env if running on a server
-async function loadEnv() {
-    // Mimic standard Node.js dotenv initialization
-    await dotenv.config();
-    
-    // Check if the API key was successfully loaded into process.env
-    if (window.process?.env?.GROQ_API_KEY) {
-        GROQ_API_KEY = window.process.env.GROQ_API_KEY;
-    }
-    
-    checkApiKey();
-}
-
-// Initialize environment load
-loadEnv();
 
 closeNoticeBtn.addEventListener('click', () => {
     setupNotice.classList.remove('show');
