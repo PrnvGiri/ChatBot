@@ -201,7 +201,8 @@ userInfoForm.addEventListener('submit', async (e) => {
 
     // Create the initial system prompt containing user answers
     const detailsString = answers.map(a => `${a.label}: ${a.value}`).join('; ');
-    const systemPrompt = `${persona.systemPrompt} The user has shared their details: ${detailsString}.`;
+    const formattingInstructions = "Respond using short, structured paragraphs and clean pointers (using numbered lists '1., 2.' or plain dashes '- '). Keep responses concise, direct, and without fluff or unnecessary steps. NEVER use markdown characters like double asterisks '**' or single asterisks '*' for bolding, italics, or lists, as markdown formatting is not supported and will show up as raw characters.";
+    const systemPrompt = `${persona.systemPrompt} The user has shared their details: ${detailsString}. ${formattingInstructions}`;
 
     messageHistory = [
         { role: "system", content: systemPrompt }
@@ -251,7 +252,7 @@ async function fetchWelcomeGreeting(persona, answers) {
         // Temporary welcome generation query
         const requestHistory = [
             ...messageHistory,
-            { role: "user", content: `(System instruction: Please execute this task: "${persona.welcomePrompt}". Write a warm greeting as the assistant based on my details. Keep it to 2-3 sentences. Do not mention that this is an instruction.)` }
+            { role: "user", content: `(System instruction: Please execute this task: "${persona.welcomePrompt}". Write a warm greeting as the assistant based on my details. Keep it to 2-3 sentences. Do not mention that this is an instruction. Do not use any markdown formatting or asterisks.)` }
         ];
 
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -359,7 +360,7 @@ function appendMessage(sender, text, isHTML = false) {
     if (isHTML) {
         contentDiv.innerHTML = text; // Trusted HTML injection (e.g. for key missing notice)
     } else {
-        contentDiv.innerHTML = escapeHTML(text).replace(/\n/g, '<br>');
+        contentDiv.innerHTML = formatMessageContent(text);
     }
 
     messageDiv.appendChild(contentDiv);
@@ -405,6 +406,24 @@ function escapeHTML(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+}
+
+function formatMessageContent(text) {
+    let html = escapeHTML(text);
+    
+    // Convert markdown bold (**text**) to bold tags
+    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+    
+    // Convert markdown italic (*text*) to italic tags
+    html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
+    
+    // Convert backticks (`code`) to code tags
+    html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+    
+    // Convert newlines to <br>
+    html = html.replace(/\n/g, '<br>');
+    
+    return html;
 }
 
 // Start onboarding layout on page load
