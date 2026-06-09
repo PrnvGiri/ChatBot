@@ -78,11 +78,12 @@
     
     <div class="setup-notice" id="setup-notice">
         <h3><i class="fas fa-exclamation-triangle"></i> API Key Required</h3>
-        <p>Please add your Groq API key in the <code>config.js</code> file to start using the chatbot.</p>
+        <p>Please add your Groq API key in the <code>.env</code> file to start using the chatbot.</p>
         <button id="close-notice">Got it</button>
     </div>
 
-    <!-- Config script loaded first -->
+    <!-- Load dotenv configuration mock first -->
+    <script src="dotenv.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
 </body>

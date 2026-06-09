@@ -41,26 +41,14 @@ function checkApiKey() {
 
 // Dynamically load environment variables from .env if running on a server
 async function loadEnv() {
-    try {
-        const response = await fetch('.env');
-        if (response.ok) {
-            const text = await response.text();
-            const env = {};
-            text.split('\n').forEach(line => {
-                const parts = line.split('=');
-                if (parts.length >= 2) {
-                    const key = parts[0].trim();
-                    const value = parts.slice(1).join('=').trim().replace(/^["']|["']$/g, '');
-                    env[key] = value;
-                }
-            });
-            if (env.GROQ_API_KEY) {
-                GROQ_API_KEY = env.GROQ_API_KEY;
-            }
-        }
-    } catch (error) {
-        console.warn("Could not load .env file directly (CORS blocks file:// access; please run via a local server). Fallback config used.", error);
+    // Mimic standard Node.js dotenv initialization
+    await dotenv.config();
+    
+    // Check if the API key was successfully loaded into process.env
+    if (window.process?.env?.GROQ_API_KEY) {
+        GROQ_API_KEY = window.process.env.GROQ_API_KEY;
     }
+    
     checkApiKey();
 }
 
