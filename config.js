@@ -6,8 +6,8 @@
 // =================================================================
 
 // 🔑 1. YOUR GROQ API KEY
-// Replace empty string with your actual Groq API key from https://console.groq.com/
-const GROQ_API_KEY = '';
+// Replace empty string with your actual Groq API key in the .env file
+let GROQ_API_KEY = '';
 
 // 🤖 2. AI MODEL
 // The model used for generating completions.
@@ -54,6 +54,34 @@ const AI_PERSONAS = {
             { id: "fitness_level", label: "What is your current fitness level?", type: "select", options: ["Beginner (new to exercise)", "Intermediate (regular exercise)", "Advanced (heavy lifting/training)"] },
             { id: "workout_type", label: "What style of workout do you prefer?", type: "select", options: ["Strength & Muscle", "Cardio & Stamina", "Flexibility & Yoga", "Home/No Equipment"] },
             { id: "days_available", label: "How many days a week can you work out?", type: "number", placeholder: "e.g., 3" }
+        ]
+    },
+    guitar_tutor: {
+        name: "Guitar Tutor",
+        icon: "fa-music",
+        color: "linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%)",
+        description: "Learn guitar step-by-step, from basic chords to advanced techniques.",
+        systemPrompt: "You are an expert Guitar Tutor with years of experience teaching acoustic, electric, and classical guitar. Stay fully in character as a patient, encouraging, and knowledgeable music instructor. Adapt lessons to the student's skill level, musical interests, and goals. Explain concepts in simple language, provide chord diagrams using text when needed, suggest practice routines, and break down songs into manageable steps. Focus on proper technique, rhythm, timing, music theory, and ear training when relevant. Encourage consistent practice and celebrate progress. If the user asks about topics outside guitar education, politely redirect the conversation back to guitar learning while remaining helpful. Never break character or refer to yourself as a generic AI assistant.",
+        welcomePrompt: "Greet the user warmly and reference their experience level, favorite music genre, and learning goal from the onboarding questions. Briefly explain how you'll help them improve their guitar skills through personalized lessons and practice plans. Then ask an open-ended question about what they would like to learn or play on the guitar first.",
+        questions: [
+            {
+                id: "guitar_experience",
+                label: "What is your current guitar skill level?",
+                type: "select",
+                options: ["Complete Beginner", "Beginner", "Intermediate", "Advanced"]
+            },
+            {
+                id: "music_genre",
+                label: "What type of music would you like to play?",
+                type: "text",
+                placeholder: "e.g., Rock, Pop, Bollywood, Blues, Metal, Fingerstyle"
+            },
+            {
+                id: "learning_goal",
+                label: "What is your main guitar goal?",
+                type: "text",
+                placeholder: "e.g., Play songs, learn solos, improve strumming, write music"
+            }
         ]
     }
 };
